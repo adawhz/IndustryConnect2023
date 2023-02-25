@@ -83,8 +83,8 @@ else
     Console.WriteLine("New time record has not been added successfully!");
 };
 
-// Delete an existing Material record
-//Navigarte to Time and material page
+// Delete an existing Time and Material record
+//Navigarte to Time and Material page
 IWebElement adminDropdown = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/a"));
 adminDropdown.Click();
 IWebElement timeandMaterial = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/ul/li[3]/a"));
@@ -102,7 +102,7 @@ ICollection<IWebElement> rowsBeforeDelete = driver.FindElements(By.XPath("/html/
 int rowsCountBeforeDelete = rowsBeforeDelete.Count();
 Console.WriteLine("Number of rows before delete: " + rowsCountBeforeDelete);
 
-//Click on delete button of the last record
+//Click on delete button of the first record
 IWebElement clickDeleteButton = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[1]/td[5]/a[2]"));
 clickDeleteButton.Click();
 
@@ -122,10 +122,66 @@ Console.WriteLine("Number of rows after delete: " + rowsCountAfterDelete);
 
 if(rowsCountBeforeDelete == rowsCountAfterDelete + 1)
 {
-    Console.WriteLine("The last record has been deleted successfully!");
+    Console.WriteLine("The first record has been deleted successfully!");
 
 }
 else
 {
     Console.WriteLine("The first record has not been deleted sucessfully!");
+}
+Thread.Sleep(2000);
+
+//Edit an existing Time and Material rocord
+
+//Click on edit button of the last Time and Material record
+IWebElement clickEditButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
+clickEditButton.Click();
+
+//Change TypeCode of the last record dropdown list
+IWebElement typecodeDropdown = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[2]/span"));
+typecodeDropdown.Click();
+Thread.Sleep(500);
+IWebElement editTimeOption = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[1]"));
+editTimeOption.Click();
+Thread.Sleep(500);
+
+
+//Edit code of the last record
+IWebElement editCodeTextbox = driver.FindElement(By.Id("Code"));
+editCodeTextbox.Clear();
+editCodeTextbox.SendKeys("Industry2023");
+Thread.Sleep(500);
+
+//Edit description of the last record
+IWebElement editDescriptionTextbox = driver.FindElement(By.Id("Description"));
+editDescriptionTextbox.Clear();
+editDescriptionTextbox.SendKeys("Industry2023");
+Thread.Sleep(500);
+
+//Edit price per unit of the last record
+IWebElement editPriceTextbox = driver.FindElement(By.XPath("//*[@id=\"Description\"]"));
+editPriceTextbox.Clear();
+editPriceTextbox.SendKeys("18");
+Thread.Sleep(500);
+
+//Click on the save button
+IWebElement saveNewButton = driver.FindElement(By.Id("SaveButton"));
+saveNewButton.Click();
+Thread.Sleep(1500);
+
+//Check the last record has been edited successfully
+//Navigate to the last record
+IWebElement navigateLastPage = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]"));
+navigateLastPage.Click();
+Thread.Sleep(1500);
+
+//Check the last record has been edited successfully
+IWebElement checkEditRecord = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+if (checkEditRecord.Text == "Industry2023")
+{
+    Console.WriteLine("The last record has been edited successfully!");
+}
+else
+{
+    Console.WriteLine("The last record has been failed to edit! Code: " + checkEditRecord.Text);
 }
