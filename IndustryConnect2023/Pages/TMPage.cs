@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IndustryConnect2023.Utilies;
 
 namespace IndustryConnect2023.Pages
 {
@@ -60,7 +61,8 @@ namespace IndustryConnect2023.Pages
 
         public void EditTM(IWebDriver driver)
         {
-            //Edit an existing Time and Material rocord
+            //Edit an existing Time and Material rocord //*[@id="tmsGrid"]/div[3]/table/tbody/tr[10]/td[5]/a[1]
+            Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[1]", 10);
 
             //Click on edit button of the last Time and Material record
             IWebElement clickEditButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
@@ -102,7 +104,7 @@ namespace IndustryConnect2023.Pages
             //Navigate to the last record
             IWebElement navigateLastPage = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]"));
             navigateLastPage.Click();
-            Thread.Sleep(1500);
+            Thread.Sleep(3000);
 
             //Check the last record has been edited successfully
             IWebElement checkEditRecord = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
