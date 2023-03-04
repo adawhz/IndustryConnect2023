@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IndustryConnect2023.Utilies;
+using NUnit.Framework;
 
 namespace IndustryConnect2023.Pages
 {
@@ -15,25 +16,34 @@ namespace IndustryConnect2023.Pages
             //Click on create new button
             IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
             createNewButton.Click();
+            Wait.WaitToBeClickable(driver, "XPath", "/html/body/div[4]/form/div/div[1]/div/span[1]/span/span[2]/span", 5);
 
             //Select Time option from Typecode dropdown list
 
             IWebElement typeDropdown = driver.FindElement(By.XPath("/html/body/div[4]/form/div/div[1]/div/span[1]/span/span[2]/span"));
+            typeDropdown.Click();
+
+            Wait.WaitToBeClickable(driver, "XPath", "/html/body/div[4]/form/div/div[1]/div/span[1]/span/span[1]", 5);
             IWebElement timeOption = driver.FindElement(By.XPath("/html/body/div[4]/form/div/div[1]/div/span[1]/span/span[1]"));
             timeOption.Click();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
+
             //Input code into code textbox
             IWebElement codeTextbox = driver.FindElement(By.Id("Code"));
             codeTextbox.SendKeys("IndustryConnect");
-            Thread.Sleep(2000);
+           Thread.Sleep(1000);
+
             //Input description into Description textbox
             IWebElement descriptionTextbox = driver.FindElement(By.XPath("//*[@id=\"Description\"]"));
-            descriptionTextbox.SendKeys("IndustryConnect");
-            Thread.Sleep(2000);
+            descriptionTextbox.SendKeys("Industry2023");
+            Thread.Sleep(1000);
+
+
             //Input price per unit textbox
             IWebElement pricePerUnit = driver.FindElement(By.XPath("/html/body/div[4]/form/div/div[4]/div/span[1]/span/input[1]"));
             pricePerUnit.SendKeys("20");
-            Thread.Sleep(2000);
+            Wait.WaitToBeClickable(driver, "Id", "SaveButton", 5);
+
             //Click on save button
             IWebElement clickSaveButton = driver.FindElement(By.Id("SaveButton"));
             clickSaveButton.Click();
@@ -41,20 +51,16 @@ namespace IndustryConnect2023.Pages
 
             //Check if new time record has been added successfully
             // Navigate the last page
-            IWebElement gotoLastPage = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[4]/a[4]"));
 
+            IWebElement gotoLastPage = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
             gotoLastPage.Click();
-            Thread.Sleep(1000);
-            IWebElement newCode = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[last()]/td[1]"));
+            Thread.Sleep(5000);
 
-            if (newCode.Text == "IndustryConnect")
-            {
-                Console.WriteLine("New time record has been added successfully!");
-            }
-            else
-            {
-                Console.WriteLine("New time record has not been added successfully!");
-            };
+            IWebElement newCode = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[last()]/td[1]"));
+            IWebElement newDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+
+            Assert.That(newCode.Text == "IndustryConnect", "Actual and expected code don't match.");
+            Assert.That(newDescription.Text == "Industry2023", "Avtual and expected description do not match.");
 
 
         }
