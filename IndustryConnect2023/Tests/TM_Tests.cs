@@ -11,61 +11,43 @@ using System.Threading.Tasks;
 namespace IndustryConnect2023.Tests
 {
     [TestFixture]
+    [Parallelizable]
     public class TM_Tests:CommonDriver
     {
-        [SetUp]
-        public void LoginSteps() 
-        {
-            driver = new ChromeDriver(@"Document:/IndustryConnect2023");
+        //Page object initialization
+        HomePage HomePageObj = new HomePage();
+        TMPage TMPageObj = new TMPage();
 
-            //Login page object initialization and definition
-            LoginPage LoginPageObj = new LoginPage();
-
-            LoginPageObj.LoginAction(driver);
-
-            //Home page object initialization and definition
-            HomePage HomePageObj = new HomePage();
-            HomePageObj.GoToTMPage(driver);
-        }
-
-
-        [Test]
+        [Test,Order(1),Description("Check if user is able to create Time record with valid data")]
         public void CreateTMTest()
         {
             //TM page object initialization and definition
-            TMPage TMPageObj = new TMPage();
+            HomePageObj.GoToTMPage(driver);
 
             //Creat TM
             TMPageObj.CreateTM(driver);
-
         }
 
-        [Test]
+        [Test,Order(2),Description("Check if user is able to edit an existing record with valid data")]
         public void EditTMTest()
         {
-            //TM page object initialization and definition
-            TMPage TMPageObj = new TMPage();
+            //Home page object initialization and definition
+            HomePageObj.GoToTMPage(driver);
 
             //Edit TM
             TMPageObj.EditTM(driver);
-
         }
 
-        [Test]
+        [Test,Order(3),Description("Check if user is able to delete an existing record")]
         public void DeleteTMTest()
         {
-            //TM page object initialization and definition
-            TMPage TMPageObj = new TMPage();
+            //Home page object initialization and definition  
+            HomePageObj.GoToTMPage(driver);
 
             //DElete TM
             TMPageObj.DeleteTM(driver);
-
         }
-
-        public void CloseTestRun()
-        {
-            driver.Quit();
-        }
+       
 
     }
 }
