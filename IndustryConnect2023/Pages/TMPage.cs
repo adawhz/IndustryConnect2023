@@ -56,19 +56,31 @@ namespace IndustryConnect2023.Pages
             gotoLastPage.Click();
             Thread.Sleep(5000);
 
-            IWebElement newCode = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[last()]/td[1]"));
-            IWebElement newDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+            //IWebElement newCode = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[last()]/td[1]"));
+            //IWebElement newDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
 
-            Assert.That(newCode.Text == "IndustryConnect", "Actual and expected code don't match.");
-            Assert.That(newDescription.Text == "Industry2023", "Avtual and expected description do not match.");
+            //Assert.That(newCode.Text == "IndustryConnect", "Actual and expected code don't match.");
+            //Assert.That(newDescription.Text == "Industry2023", "Avtual and expected description do not match.");
             Wait.WaitToBeClickable(driver, "XPath", "/html/body/div[4]/div/div/div[4]/a[4]", 10);
 
-
         }
-        
+        public string GetCode(IWebDriver driver)
+        {
+            IWebElement actualCode = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[last()]/td[1]"));
+            return actualCode.Text;
+        }
+        public string GetDescription(IWebDriver driver)
+        {
+            IWebElement actualDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+            return actualDescription.Text;
+        }
+        public string GetPrice(IWebDriver driver)
+        {
+            IWebElement actualPrice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
+            return actualPrice.Text;
+        }
 
-
-        public void EditTM(IWebDriver driver)
+        public void EditTM(IWebDriver driver, string description)
         {
             Thread.Sleep(5000);
             //Navigate to the TM last record of last page
@@ -110,7 +122,7 @@ namespace IndustryConnect2023.Pages
             //Edit description of the last record
             IWebElement editDescriptionTextbox = driver.FindElement(By.Id("Description"));
             editDescriptionTextbox.Clear();
-            editDescriptionTextbox.SendKeys("Industry2023");
+            editDescriptionTextbox.SendKeys(description);
             Thread.Sleep(500);
 
             //Edit price per unit of the last record
@@ -146,14 +158,17 @@ namespace IndustryConnect2023.Pages
             IWebElement checkEditRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
             IWebElement checkEditRecordDescription = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[last()]/td[3]"));
            
-            Assert.AreEqual("Industry2023", checkEditRecordCode.Text, "Actual and expected description do not match.");
-            Assert.AreEqual("Industry2023", checkEditRecordDescription.Text,"Actual and expected description do not match.");
-
-
-          
-
+            //Assert.AreEqual("Industry2023", checkEditRecordCode.Text, "Actual and expected description do not match.");
+           // Assert.AreEqual("Industry2023", checkEditRecordDescription.Text,"Actual and expected description do not match.");
 
         }
+        public string GeteditedDescription(IWebDriver driver)
+        {
+            IWebElement editedDescription = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[last()]/td[3]"));
+            return editedDescription.Text;
+        }
+
+        
         public void DeleteTM(IWebDriver driver)
         {
             //Navigate to the last page

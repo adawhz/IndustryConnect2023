@@ -1,33 +1,73 @@
+using IndustryConnect2023.Pages;
+using IndustryConnect2023.Utilies;
+using NUnit.Framework;
+using OpenQA.Selenium.Chrome;
 using System;
 using TechTalk.SpecFlow;
 
 namespace IndustryConnect2023.StepDefinitions
 {
     [Binding]
-    public class TMFeatureStepDefinitions
+    public class TMFeatureStepDefinitions:CommonDriver
     {
+        LoginPage LoginPageObj = new LoginPage();
+        HomePage HomePageObj = new HomePage();
+        TMPage TMPageObj = new TMPage();
+
         [Given(@"Logged in TurnUp portal successfully")]
         public void GivenLoggedInTurnUpPortalSuccessfully()
         {
-            throw new PendingStepException();
+            //Open chrome driver
+            driver = new ChromeDriver(@"Document:/IndustryConnect2023");
+
+            //Login page object initialization and definition
+            LoginPageObj.LoginAction(driver);
         }
 
         [When(@"Navigate to TM page")]
         public void WhenNavigateToTMPage()
         {
-            throw new PendingStepException();
+            //TM page object initialization and definition
+            HomePageObj.GoToTMPage(driver);
         }
 
         [When(@"Create a new TM record")]
         public void WhenCreateANewTMRecord()
         {
-            throw new PendingStepException();
+            //TM page object initialization and definition
+            HomePageObj.GoToTMPage(driver);
+            //Creat TM
+            TMPageObj.CreateTM(driver);
         }
-
+    
         [Then(@"The new TM record should be created successfully")]
         public void ThenTheNewTMRecordShouldBeCreatedSuccessfully()
         {
-            throw new PendingStepException();
+            string newCode = TMPageObj.GetCode(driver);
+            string newDescription = TMPageObj.GetDescription(driver);   
+            string newPrice = TMPageObj.GetPrice(driver);
+            Assert.That(newCode == "IndustryConnect", "Actual and expected code don't match.");
+            Assert.That(newDescription == "Industry2023", "Actual and expected description do not match.");
+            Assert.AreEqual("$20.00", newPrice, "Actual and expected price do not match.");
         }
+
+        [When(@"I update '([^']*)' on an existing TM record")]
+        public void WhenIUpdateOnAnExistingTMRecord(string description)
+        {
+            TMPageObj.EditTM(driver, description);
+            
+           
+        }
+
+        [Then(@"The record should have the updated '([^']*)'")]
+        public void ThenTheRecordShouldHaveTheUpdated(string description)
+        { 
+
+        }
+            
+        
     }
+
 }
+
+

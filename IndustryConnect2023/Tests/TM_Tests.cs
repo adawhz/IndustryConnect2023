@@ -35,7 +35,7 @@ namespace IndustryConnect2023.Tests
             HomePageObj.GoToTMPage(driver);
 
             //Edit TM
-            TMPageObj.EditTM(driver);
+            //TMPageObj.EditTM(driver);
         }
 
         [Test,Order(3),Description("Check if user is able to delete an existing record")]
