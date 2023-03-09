@@ -14,12 +14,12 @@ Scenario: Create new TM record with valid details
 Scenario Outline: Edit an existing TM record with valid details
     Given Logged in TurnUp portal successfully
 	When Navigate to TM page
-	And  I update '<Description>' on an existing TM record
-	Then The record should have the updated '<description>'
+	And  I update '<Description>', '<Code>', '<Price>' on an existing TM record
+	Then The record should have the updated '<Description>','<Code>','<Price>'
 
-Examples: 
- | Description |
- | Time        |
- | Material    |
- | EditRecord  |
+Examples:
+ | Description | Code    | Price |
+ | Airplane    | Product | 15    |
+ | Material    | Service | 11    |
+ | EditRecord  | Staff   | 6     |
 	 

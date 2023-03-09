@@ -51,21 +51,27 @@ namespace IndustryConnect2023.StepDefinitions
             Assert.AreEqual("$20.00", newPrice, "Actual and expected price do not match.");
         }
 
-        [When(@"I update '([^']*)' on an existing TM record")]
-        public void WhenIUpdateOnAnExistingTMRecord(string description)
+        [When(@"I update '([^']*)', '([^']*)', '([^']*)' on an existing TM record")]
+        public void WhenIUpdateOnAnExistingTMRecord(string description, string code, string price)
         {
-            TMPageObj.EditTM(driver, description);
+            TMPageObj.EditTM(driver, description, code, price);
             
            
         }
 
-        [Then(@"The record should have the updated '([^']*)'")]
-        public void ThenTheRecordShouldHaveTheUpdated(string description)
-        { 
+        [Then(@"The record should have the updated '([^']*)','([^']*)','([^']*)'")]
+        public void ThenTheRecordShouldHaveTheUpdated(string description, string code, string price)
+        {
+            string editedDescription = TMPageObj.GetEditedDescription(driver);
+            string editedCode = TMPageObj.GetEditedCode(driver);
+            string editedPrice = TMPageObj.GetEditedPrice(driver);
+            Assert.AreEqual(description, editedDescription, "Actual and expected description do not match.");
+            Assert.AreEqual(code,editedCode, "Actual and expected code do not match.");
+            Assert.AreEqual("$" + price + ".00", editedPrice, "Actual and expected price do not match");
 
         }
-            
-        
+
+
     }
 
 }

@@ -80,7 +80,8 @@ namespace IndustryConnect2023.Pages
             return actualPrice.Text;
         }
 
-        public void EditTM(IWebDriver driver, string description)
+
+        public void EditTM(IWebDriver driver, string description, string code, string price)
         {
             Thread.Sleep(5000);
             //Navigate to the TM last record of last page
@@ -91,17 +92,17 @@ namespace IndustryConnect2023.Pages
             //Edit an existing Time and Material rocord
             //Click on edit button of the last Time and Material record
             IWebElement recordToBeEdit = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            if(recordToBeEdit.Text== "IndustryConnect")
-            {
+            //if(recordToBeEdit.Text== "IndustryConnect")
+            //{
                 IWebElement clickEditButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
                 clickEditButton.Click();
-            }
-            else
-            {
-                Assert.Fail("Record to be edited not found.");
-            }
+           // }
+           // else
+           // {
+           //     Assert.Fail("Record to be edited not found.");
+          //  }
             
-            Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[2]/span", 10);
+            //Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[2]/span", 10);
 
             //Change TypeCode of the last record dropdown list
             IWebElement typecodeDropdown = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[2]/span"));
@@ -116,7 +117,7 @@ namespace IndustryConnect2023.Pages
             //Edit code of the last record
             IWebElement editCodeTextbox = driver.FindElement(By.Id("Code"));
             editCodeTextbox.Clear();
-            editCodeTextbox.SendKeys("Industry2023");
+            editCodeTextbox.SendKeys(code);
             Thread.Sleep(500);
 
             //Edit description of the last record
@@ -134,7 +135,7 @@ namespace IndustryConnect2023.Pages
             editPrice1Textbox.Clear();
             editPriceTextbox.Click();
 
-            editPrice1Textbox.SendKeys("18");
+            editPrice1Textbox.SendKeys(price);
             Wait.WaitToBeClickable(driver, "Id", "SaveButton", 5);
 
             //Click on the save button
@@ -157,18 +158,30 @@ namespace IndustryConnect2023.Pages
 
             IWebElement checkEditRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
             IWebElement checkEditRecordDescription = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[last()]/td[3]"));
+            IWebElement checkEditprice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
            
             //Assert.AreEqual("Industry2023", checkEditRecordCode.Text, "Actual and expected description do not match.");
            // Assert.AreEqual("Industry2023", checkEditRecordDescription.Text,"Actual and expected description do not match.");
 
         }
-        public string GeteditedDescription(IWebDriver driver)
+        public string GetEditedDescription(IWebDriver driver)
         {
             IWebElement editedDescription = driver.FindElement(By.XPath("/html/body/div[4]/div/div/div[3]/table/tbody/tr[last()]/td[3]"));
             return editedDescription.Text;
         }
-
+        public string GetEditedCode(IWebDriver driver)
+        {
+            IWebElement editedCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            return editedCode.Text;
+        }
         
+        public string GetEditedPrice(IWebDriver driver)
+        {
+            IWebElement editedPrice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
+            return editedPrice.Text;
+        }
+
+
         public void DeleteTM(IWebDriver driver)
         {
             //Navigate to the last page
