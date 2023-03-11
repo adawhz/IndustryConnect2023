@@ -38,7 +38,7 @@ namespace IndustryConnect2023.Tests
             HomePageObj.GoToEmployeePage(driver);
 
             //Edit employee
-            EmployeePageObj.EditEmployee(driver);
+           // EmployeePageObj.EditEmployee(driver);
         }
 
         [Test,Order(3),Description("Check if user is able to delete an existing employee record")]

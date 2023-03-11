@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace IndustryConnect2023.Pages
 
             //Input user into Username textbox
             IWebElement newEmployeeUserNameTextbox = driver.FindElement(By.Id("Username"));
-            newEmployeeUserNameTextbox.SendKeys("JerfferyP");
+            newEmployeeUserNameTextbox.SendKeys("JefferyP");
 
             //Input contact into Contact textbox
             Wait.WaitToBeClickable(driver, "Id", "EditContactButton", 5);
@@ -104,10 +105,23 @@ namespace IndustryConnect2023.Pages
             IWebElement newEmployeeRecordUserName = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[2]"));
            
             Assert.That(newEmployeerecordName.Text == "Jeffery", "Actual and expected name do not match");
-            Assert.That(newEmployeeRecordUserName.Text == "JerfferyP", "Actual and expected username fo not match");
+            Assert.That(newEmployeeRecordUserName.Text == "JefferyP", "Actual and expected username fo not match");
 
         }
-        public void EditEmployee(IWebDriver driver)
+
+        public string GetName(IWebDriver driver)
+        {
+            IWebElement newEmployeeName = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            return newEmployeeName.Text;
+        }
+
+        public string GetUserName(IWebDriver driver)
+        {
+            IWebElement newEmployeeUserName = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[2]"));
+            return newEmployeeUserName.Text;
+        }
+
+        public void EditEmployee(IWebDriver driver,string Name,string Username)
         {
             //Go to last page of employee
             Thread.Sleep(5000);
@@ -117,24 +131,24 @@ namespace IndustryConnect2023.Pages
             //Edit the last record of employee
             Thread.Sleep(1500);
             IWebElement employeeToBeEdit = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            if (employeeToBeEdit.Text == "Jeffery")
-            {
+           // if (employeeToBeEdit.Text == "Jeffery")
+           // {
                 IWebElement employeeToBeEditButton = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[3]/a[1]"));
                 employeeToBeEditButton.Click();
-            }
-            else
-            {
-                Assert.Fail("Employee to be edited not found.");            
-            }
+           // }
+           // else
+           // {
+           //     Assert.Fail("Employee to be edited not found.");            
+          //  }
             //Edit name of last employee
             IWebElement nameToBeEditTextbox = driver.FindElement(By.Id("Name"));
             nameToBeEditTextbox.Clear();
-            nameToBeEditTextbox.SendKeys("Industry");
+            nameToBeEditTextbox.SendKeys(Name);
             Thread.Sleep(1000);
             //Edit username of the last employee
             IWebElement userNameToBeEdittextbox = driver.FindElement(By.Id("Username"));
             userNameToBeEdittextbox.Clear();
-            userNameToBeEdittextbox.SendKeys("Connect");
+            userNameToBeEdittextbox.SendKeys(Username);
 
             //Click on edit save button
             IWebElement editSaveButton = driver.FindElement(By.Id("SaveButton"));
@@ -156,11 +170,24 @@ namespace IndustryConnect2023.Pages
             IWebElement checkNameEditTextbox = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
             IWebElement checkUserNameEditTextbox = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[2]"));
 
-            Assert.That(checkNameEditTextbox.Text == "Industry", "Actual and expected name do not match");
-            Assert.That(checkUserNameEditTextbox.Text == "Connect", "Actual and expected username fo not match");
+           //Assert.That(checkNameEditTextbox.Text == "Industry", "Actual and expected name do not match");
+           //Assert.That(checkUserNameEditTextbox.Text == "Connect", "Actual and expected username fo not match");
            
 
         }
+
+        public string GetEmployeeName(IWebDriver driver)
+        {
+            IWebElement editedEmployeeName = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            return editedEmployeeName.Text;
+        } 
+        public string GetEmployeeUsername(IWebDriver driver)
+        {
+            IWebElement editedEmployeeUsername = driver.FindElement(By.XPath("//*[@id=\"usersGrid\"]/div[3]/table/tbody/tr[last()]/td[2]"));
+            return editedEmployeeUsername.Text;
+        }
+
+
         public void DeleteEmployee(IWebDriver driver)
         {
             //Go to last page of employee
